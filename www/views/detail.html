@@ -1,0 +1,15 @@
+<ion-view title="{{spotName}}">
+    <ion-nav-bar type="bar-positive"
+                 animation="nav-title-slide-ios7"
+                 back-button-type="button-icon button-clear"
+                 back-button-icon="ion-ios7-arrow-back">
+        <ion-nav-back-button>
+            <i></i> Back
+        </ion-nav-back-button>
+    </ion-nav-bar>
+
+    <ion-content>
+        <lpz-wind-highchart chartSeries="chartSeries"></lpz-wind-highchart>
+        <button onclick="window.plugins.toast.showShortTop('Hello there!', function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)})">Toast showShortTop</button>
+    </ion-content>
+</ion-view>
