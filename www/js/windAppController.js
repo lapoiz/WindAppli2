@@ -31,7 +31,8 @@ laPoizWindApp.controller('DetailCtrl', ['$scope', '$stateParams', '$localStorage
     function ($scope, $stateParams, $localStorage, AjaxServices,  $cordovaToast) {
         //console.log("in DetailCtrl");
         //console.log("$stateParams.idSpot "+$stateParams.idSpot);
-        $scope.chartSeries = $localStorage.getObject('chartSeries-'+$stateParams.idSpot);
+        //$scope.chartSeries = $localStorage.getObject('chartSeries-'+$stateParams.idSpot);
+        $scope.chartSeries = $localStorage.get('chartSeries-'+$stateParams.idSpot);
 //        $cordovaToast.show('loading data from server', 'long', 'top');
 /*        $cordovaToast.showShortTop('loading data from server').then(function(success) {
             // success

@@ -28,11 +28,12 @@ laPoizWindApp.factory('AjaxServices',  function ($http, $q) {
             //console.log("AjaxServices -> in getDataSpot ");
             //console.log("URL: "+'http://localhost/Wind/web/app_dev.php/json/spot/'+idSpot);
             var deferred = $q.defer();
+            try {
             //$http.get('http://localhost/Wind/web/app_dev.php/json/spot/'+idSpot)
             $http.get('http://www.lapoiz.com/Wind/web/app.php/json/spot/'+idSpot)
             //$http.get('test/json/test.json')
                 .success(function(data, status){
-                    //alert("reception requette Ajax");
+                    alert("reception requette Ajax");
                     //console.log("json returned: " + JSON.stringify(data));
                     factory.dataSpot = data;
                     deferred.resolve(factory.dataSpot);
@@ -41,6 +42,9 @@ laPoizWindApp.factory('AjaxServices',  function ($http, $q) {
                     console.log("Erreur returned: " + status );
                     deferred.reject('Impossible de récupérer le spot, ERROR 999 - coté serveur');
                 });
+            } catch (e) {
+                console.warn("problem avec la requette ajax: " + e)
+            }
             return deferred.promise;
         }
     }

@@ -543,9 +543,12 @@ Meteogram.prototype.parseYrData = function () {
 
     if (!xml || !xml.forecast) {
         //angular.element(document.querySelector( '#loading')).html('<i class="fa fa-frown-o"></i> Failed loading data, please try again later');
-        console.error("Meteogram: Failed loading data");
-        console.error("xml: "+xml);
-        console.error("Json: "+JSON.stringify(xml));
+        if (!xml)
+            console.warn("Meteogram: Failed loading data - JSon empty");
+        else
+            console.warn("Meteogram: Failed loading data - JSon without forecast inside");
+        //console.debug("xml: "+xml);
+        //console.debug("Json: "+JSON.stringify(xml));
         return;
     };
 

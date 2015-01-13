@@ -11,13 +11,22 @@ laPoizWindApp.directive('lpzWindHighchart', function() {
         template : '<div><div id="loading"></div><div id="meteoGraph"></div></div>',
         link: function(scope, element, attrs, ctrl) {
             //console.log("lpzWindHighchart");
-            var meteogram = new Meteogram(scope.chartSeries, "meteoGraph");
-            meteogram.createChart();
+            //var xml=JSON.stringify(scope.chartSeries);
+            var xml=null;
+            if (scope.chartSeries)
+                xml=JSON.parse(scope.chartSeries);
+                //xml=scope.chartSeries;
+            var isLocalStorage=true;
+            //var meteogram = new Meteogram(xml, "meteoGraph");
+            //meteogram.createChart();
 
             scope.$watch('chartSeries', function(newVal, oldVal) {
-                meteogram.xml = scope.chartSeries;
+                if (!isLocalStorage)
+                    xml = scope.chartSeries;
+                var meteogram = new Meteogram(xml, "meteoGraph");
                 //console.log("lpzWindHighchart -> scope.chartSeries : "+JSON.stringify(scope.chartSeries));
-                meteogram.parseYrData();
+                meteogram.createChart();
+                isLocalStorage=false;
             });
 
         }
