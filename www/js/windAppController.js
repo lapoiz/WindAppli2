@@ -21,12 +21,18 @@ laPoizWindApp.controller('ListCtrl', ['$scope', 'AjaxServices', '$localStorage',
 laPoizWindApp.controller('DetailCtrl', ['$scope', '$stateParams', '$localStorage', 'AjaxServices', '$display',
     function ($scope, $stateParams, $localStorage, AjaxServices,  $display) {
         $scope.chartSeries = $localStorage.get('chartSeries-'+$stateParams.idSpot);
+        $scope.spotName = $localStorage.get('spotName-'+$stateParams.idSpot);
+        if (!$scope.spotName) {
+            $scope.spotName="Spot";
+        }
         $display.showToast('loading data from server');
 
         $scope.dataSpot = AjaxServices.getDataSpot($stateParams.idSpot).then(
             function(dataSpot){
                 $scope.chartSeries = dataSpot;
+                $scope.spotName=dataSpot.spot;
                 $localStorage.setObject('chartSeries-'+$stateParams.idSpot,dataSpot);
+                $localStorage.set('spotName-'+$stateParams.idSpot,dataSpot.spot);
             }),
             function(msg){
                 $display.showToast("Erreur: "+msg);
