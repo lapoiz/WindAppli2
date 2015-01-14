@@ -1,58 +1,30 @@
 'use strict';
 
-laPoizWindApp.controller('ListCtrl', ['$scope', 'AjaxServices', '$localStorage', '$cordovaToast',
-    function ($scope, AjaxServices, $localStorage, $cordovaToast) {
-        //console.log("in ListCtrl");
+laPoizWindApp.controller('ListCtrl', ['$scope', 'AjaxServices', '$localStorage', '$display',
+    function ($scope, AjaxServices, $localStorage, $display) {
         $scope.spots = $localStorage.getObject('spots');
-        //$cordovaToast.show('loading data from server', 'long', 'top');
-/*
-        $cordovaToast.showShortTop('loading data from server').then(function(success) {
-            // success
-            console.log("Toast success");
-        }, function (error) {
-            // error
-            console.log("Toast error: "+error);
-        });
-*/
+        $display.showToast('loading data from server');
+
         $scope.spots = AjaxServices.getSpots().then(function(spots){
             //si j'ai une promesses positif alors j'envois mes données et je stope le chargement
             $scope.spots = spots;
             $localStorage.setObject('spots',spots);
         }), function(msg){ //sinon j'affiche mon message d'erreur
-            console.log("Erreur ");
-            $ionicPopup.alert({
-                title: 'Error',
-                template: msg
-            });
+            $display.showToast("Erreur: "+msg);
         }
     }]);
 
-laPoizWindApp.controller('DetailCtrl', ['$scope', '$stateParams', '$localStorage', 'AjaxServices', '$cordovaToast',
-    function ($scope, $stateParams, $localStorage, AjaxServices,  $cordovaToast) {
-        //console.log("in DetailCtrl");
-        //console.log("$stateParams.idSpot "+$stateParams.idSpot);
-        //$scope.chartSeries = $localStorage.getObject('chartSeries-'+$stateParams.idSpot);
+laPoizWindApp.controller('DetailCtrl', ['$scope', '$stateParams', '$localStorage', 'AjaxServices', '$display',
+    function ($scope, $stateParams, $localStorage, AjaxServices,  $display) {
         $scope.chartSeries = $localStorage.get('chartSeries-'+$stateParams.idSpot);
-//        $cordovaToast.show('loading data from server', 'long', 'top');
-/*        $cordovaToast.showShortTop('loading data from server').then(function(success) {
-            // success
-            console.log("Toast success");
-        }, function (error) {
-            // error
-            console.log("Toast error: "+error);
-        });
-*/
+        $display.showToast('loading data from server');
+
         $scope.dataSpot = AjaxServices.getDataSpot($stateParams.idSpot).then(
             function(dataSpot){
                 $scope.chartSeries = dataSpot;
                 $localStorage.setObject('chartSeries-'+$stateParams.idSpot,dataSpot);
-                //console.log("forecast :  "+ JSON.stringify(dataSpot));
             }),
             function(msg){
-                console.log("Erreur ");
-                $ionicPopup.alert({
-                    title: 'Error',
-                    template: msg
-            });
-        }
+                $display.showToast("Erreur: "+msg);
+            }
     }]);
