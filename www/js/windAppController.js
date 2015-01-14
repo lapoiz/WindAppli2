@@ -2,15 +2,19 @@
 
 laPoizWindApp.controller('ListCtrl', ['$scope', 'AjaxServices', '$localStorage', '$display',
     function ($scope, AjaxServices, $localStorage, $display) {
-        $scope.spots = $localStorage.getObject('spots');
+        $scope.listSpots = $localStorage.getObject('spots');
         $display.showToast('loading data from server');
-
-        $scope.spots = AjaxServices.getSpots().then(function(spots){
-            //si j'ai une promesses positif alors j'envois mes données et je stope le chargement
-            $scope.spots = spots;
-            $localStorage.setObject('spots',spots);
-        }), function(msg){ //sinon j'affiche mon message d'erreur
-            $display.showToast("Erreur: "+msg);
+        try {
+            $scope.spots = AjaxServices.getSpots().then(
+                function(spots){
+                    $scope.listSpots = spots;
+                    $localStorage.setObject('spots',spots);
+                }), function(msg){ //sinon j'affiche mon message d'erreur
+                    $display.showToast("Erreur: "+msg);
+                }
+        } catch(e) {
+            error(e);
+            $display.showToast("Erreur du serveur: ");
         }
     }]);
 
